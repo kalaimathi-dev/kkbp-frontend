@@ -1,5 +1,5 @@
 import React from "react";
-import { Link, useNavigate, useLocation } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { motion } from "framer-motion";
 import { useAuth } from "../context/AuthContext";
 import {
@@ -9,7 +9,6 @@ import {
   User,
   LogOut,
   Shield,
-  BookOpen,
   MessageCircle,
 } from "lucide-react";
 import "./Navbar.css";

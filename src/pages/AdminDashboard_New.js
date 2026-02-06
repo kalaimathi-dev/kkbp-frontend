@@ -9,7 +9,6 @@ import {
   Clock,
   Eye,
   Calendar,
-  TrendingUp,
   BarChart3,
   Shield,
   Activity,
@@ -26,7 +25,6 @@ import {
   Search,
   Zap,
   ArrowUpRight,
-  BookOpen,
   Award,
   Globe,
 } from "lucide-react";
@@ -47,7 +45,6 @@ const AdminDashboard = () => {
 
   // Pending approvals
   const [pendingArticles, setPendingArticles] = useState([]);
-  const [selectedArticle, setSelectedArticle] = useState(null);
   const [processingId, setProcessingId] = useState(null);
 
   // User management
@@ -1212,15 +1209,6 @@ const Pagination = ({ page, pages, onPrev, onNext }) => (
 /* ============================================================
    HELPER FUNCTIONS
    ============================================================ */
-const getActivityIcon = (action) => {
-  const icons = {
-    ARTICLE_APPROVE: "✓", ARTICLE_REJECT: "✗", ARTICLE_CREATE: "✎",
-    ARTICLE_DELETE: "🗑", USER_CREATE: "👤", USER_EDIT: "✏",
-    USER_DELETE: "👤", LOGIN: "🔑",
-  };
-  return icons[action] || "•";
-};
-
 const getActivityText = (action) => {
   const texts = {
     ARTICLE_APPROVE: "approved an article",

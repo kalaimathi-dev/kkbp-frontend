@@ -96,21 +96,6 @@ const MyArticles = () => {
     }
   };
 
-  const getStatusColor = (status) => {
-    switch (status) {
-      case "PENDING":
-        return "yellow";
-      case "APPROVED":
-        return "green";
-      case "REJECTED":
-        return "red";
-      case "DRAFT":
-        return "gray";
-      default:
-        return "gray";
-    }
-  };
-
   return (
     <div className="my-articles-page">
       <div className="container">

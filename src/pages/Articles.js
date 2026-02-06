@@ -3,7 +3,6 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import {
   Search,
-  Filter,
   SlidersHorizontal,
   X,
   Clock,

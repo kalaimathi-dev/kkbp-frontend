@@ -5,7 +5,6 @@ import {
   FileText,
   Send,
   AlertCircle,
-  CheckCircle,
   Tag,
   FolderOpen,
 } from "lucide-react";
