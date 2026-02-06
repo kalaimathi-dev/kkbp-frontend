@@ -131,7 +131,6 @@ const AdminDashboard = () => {
       toast.success("Article approved successfully!");
       await fetchPendingArticles();
       if (dashboardStats) await fetchDashboardStats();
-      setSelectedArticle(null);
     } catch (error) {
       console.error("Error approving article:", error);
       toast.error("Failed to approve article");
@@ -148,7 +147,6 @@ const AdminDashboard = () => {
       toast.success("Article rejected");
       await fetchPendingArticles();
       if (dashboardStats) await fetchDashboardStats();
-      setSelectedArticle(null);
     } catch (error) {
       console.error("Error rejecting article:", error);
       toast.error("Failed to reject article");
