@@ -17,6 +17,7 @@ import {
   ExternalLink,
   AlertCircle,
   Loader2,
+  FileText,
 } from "lucide-react";
 import "./Chatbot.css";
 
@@ -46,7 +47,8 @@ const Chatbot = () => {
   const fetchStats = async () => {
     try {
       const token = localStorage.getItem("token");
-      const response = await fetch("http://localhost:5000/api/chatbot/stats", {
+      const apiUrl = process.env.REACT_APP_API_URL || "http://localhost:5000/api";
+      const response = await fetch(`${apiUrl}/chatbot/stats`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       const data = await response.json();
@@ -67,7 +69,10 @@ const Chatbot = () => {
 
     try {
       const token = localStorage.getItem("token");
-      const response = await fetch("http://localhost:5000/api/chatbot/search", {
+      const apiUrl = process.env.REACT_APP_API_URL || "http://localhost:5000/api";
+      
+      // Use RAG search for semantic search with local embeddings
+      const response = await fetch(`${apiUrl}/chatbot/rag-search`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -77,6 +82,7 @@ const Chatbot = () => {
       });
 
       const data = await response.json();
+
       const botMessage = {
         type: "bot",
         content: response.ok
@@ -134,6 +140,81 @@ const Chatbot = () => {
       );
     }
 
+    // RAG Response (with AI-generated answer)
+    if (data.ragEnabled && data.aiAnswer) {
+      return (
+        <div className="cb-response cb-response--rag">
+          {/* Header */}
+          <div className="cb-res-header cb-res-header--ai">
+            <div className="cb-res-check">
+              <Sparkles size={16} />
+            </div>
+            <span>AI-Generated Answer</span>
+          </div>
+
+          {/* AI Answer */}
+          <div className="cb-res-section cb-ai-answer">
+            <div
+              className="cb-res-text"
+              dangerouslySetInnerHTML={{
+                __html: formatSolution(data.aiAnswer),
+              }}
+            />
+          </div>
+
+          {/* Sources */}
+          {data.sources?.length > 0 && (
+            <div className="cb-res-sources">
+              <h5><BookOpen size={14} /> Sources</h5>
+              {data.sources.map((source, idx) => (
+                <div key={idx} className="cb-source">
+                  <div className="cb-source-header">
+                    <h6>{source.title}</h6>
+                    <span className="cb-similarity">{source.similarity} match</span>
+                  </div>
+                  <span className="cb-source-category">
+                    <Folder size={12} /> {source.category}
+                  </span>
+                  {source.excerpt && (
+                    <p className="cb-source-excerpt">{truncateContent(source.excerpt, 150)}</p>
+                  )}
+                  <div className="cb-source-footer">
+                    <span><Eye size={11} /> {source.views} views</span>
+                    <span><PenTool size={11} /> {source.author}</span>
+                    {source.tags?.length > 0 && (
+                      <div className="cb-source-tags">
+                        {source.tags.slice(0, 3).map((tag, i) => (
+                          <span key={i} className="cb-mini-tag">{tag}</span>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                  <Link to={`/articles/${source.id}`} className="cb-source-link">
+                    View Article <ArrowRight size={12} />
+                  </Link>
+                </div>
+              ))}
+            </div>
+          )}
+
+          {/* Alternative Results */}
+          {data.alternativeResults?.length > 0 && (
+            <div className="cb-res-alts">
+              <h5>More Related Articles</h5>
+              {data.alternativeResults.map((alt, idx) => (
+                <Link key={idx} to={`/articles/${alt.id}`} className="cb-alt">
+                  <span className="cb-alt-title">{alt.title}</span>
+                  <span className="cb-alt-cat">{alt.category} • {alt.similarity} match</span>
+                  <ArrowRight size={14} />
+                </Link>
+              ))}
+            </div>
+          )}
+        </div>
+      );
+    }
+
+    // Standard Keyword Search Response
     const article = data.article;
     return (
       <div className="cb-response cb-response--found">
@@ -181,6 +262,36 @@ const Chatbot = () => {
                 <Tag size={11} /> {tag}
               </span>
             ))}
+          </div>
+        )}
+
+        {/* PDF Viewer */}
+        {article.pdfFile && (
+          <div className="cb-pdf-viewer">
+            <div className="cb-pdf-header">
+              <FileText size={16} />
+              <span>PDF Document: {article.pdfOriginalName || 'Document.pdf'}</span>
+            </div>
+            <div className="cb-pdf-frame">
+              <iframe
+                src={`${process.env.REACT_APP_API_URL || "http://localhost:5000/api"}/articles/pdf/${article.pdfFile}`}
+                title={article.pdfOriginalName || 'PDF Document'}
+                width="100%"
+                height="500px"
+                style={{ border: 'none', borderRadius: '8px' }}
+              />
+            </div>
+            <div className="cb-pdf-actions">
+              <a
+                href={`${process.env.REACT_APP_API_URL || "http://localhost:5000/api"}/articles/pdf/${article.pdfFile}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="cb-pdf-link"
+              >
+                <ExternalLink size={14} />
+                Open PDF in new tab
+              </a>
+            </div>
           </div>
         )}
 

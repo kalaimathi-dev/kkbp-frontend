@@ -310,3 +310,93 @@
 .form-textarea::-webkit-scrollbar-thumb:hover {
   background: var(--primary-light);
 }
+
+/* PDF Upload Styles */
+.pdf-upload-area {
+  margin-top: 8px;
+}
+
+.pdf-upload-prompt {
+  border: 2px dashed var(--primary-medium);
+  border-radius: 12px;
+  padding: 32px;
+  text-align: center;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.pdf-upload-prompt:hover {
+  border-color: var(--primary-dark);
+  background: rgba(79, 134, 208, 0.05);
+}
+
+.pdf-upload-label {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  cursor: pointer;
+  color: var(--primary-dark);
+}
+
+.pdf-icon {
+  color: var(--primary-medium);
+}
+
+.pdf-upload-label span {
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.pdf-hint {
+  font-size: 14px !important;
+  color: #666 !important;
+  font-weight: 400 !important;
+}
+
+.pdf-file-preview {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 16px;
+  background: rgba(79, 134, 208, 0.1);
+  border: 1px solid var(--primary-medium);
+  border-radius: 12px;
+}
+
+.pdf-preview-icon {
+  color: var(--primary-medium);
+  flex-shrink: 0;
+}
+
+.pdf-file-info {
+  flex: 1;
+}
+
+.pdf-file-name {
+  font-weight: 500;
+  color: var(--primary-dark);
+  margin-bottom: 4px;
+}
+
+.pdf-file-size {
+  font-size: 14px;
+  color: #666;
+}
+
+.pdf-remove-btn {
+  background: none;
+  border: none;
+  color: #e74c3c;
+  cursor: pointer;
+  padding: 8px;
+  border-radius: 8px;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.pdf-remove-btn:hover {
+  background: rgba(231, 76, 60, 0.1);
+}

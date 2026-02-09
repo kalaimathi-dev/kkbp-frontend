@@ -7,6 +7,9 @@ import {
   AlertCircle,
   Tag,
   FolderOpen,
+  Upload,
+  File,
+  X,
 } from "lucide-react";
 import Card from "../components/Card";
 import Button from "../components/Button";
@@ -24,6 +27,7 @@ const SubmitArticle = () => {
     tags: "",
     excerpt: "",
   });
+  const [pdfFile, setPdfFile] = useState(null);
   const [loading, setLoading] = useState(false);
   const [charCount, setCharCount] = useState(0);
 
@@ -47,6 +51,27 @@ const SubmitArticle = () => {
     if (name === "content") {
       setCharCount(value.length);
     }
+  };
+
+  const handleFileChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      if (file.type !== 'application/pdf') {
+        toast.error("Only PDF files are allowed");
+        return;
+      }
+      if (file.size > 10 * 1024 * 1024) {
+        toast.error("PDF file must be less than 10MB");
+        return;
+      }
+      setPdfFile(file);
+      toast.success(`PDF selected: ${file.name}`);
+    }
+  };
+
+  const removePdfFile = () => {
+    setPdfFile(null);
+    toast.info("PDF file removed");
   };
 
   const handleSubmit = async (e) => {
@@ -81,13 +106,24 @@ const SubmitArticle = () => {
         .map((tag) => tag.trim())
         .filter((tag) => tag.length > 0);
 
-      const articleData = {
-        ...formData,
-        tags: tagsArray,
-        status: "PENDING",
-      };
+      // Use FormData for file upload
+      const formDataToSend = new FormData();
+      formDataToSend.append('title', formData.title);
+      formDataToSend.append('content', formData.content);
+      formDataToSend.append('excerpt', formData.excerpt);
+      formDataToSend.append('category', formData.category);
+      formDataToSend.append('status', 'PENDING');
+      formDataToSend.append('tags', JSON.stringify(tagsArray));
+      
+      if (pdfFile) {
+        formDataToSend.append('pdfFile', pdfFile);
+      }
 
-      await api.post("/articles", articleData);
+      await api.post("/articles", formDataToSend, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      });
 
       toast.success("Article submitted for review!");
       navigate("/my-articles");
@@ -265,6 +301,52 @@ const SubmitArticle = () => {
                   />
                   <div className="form-hint">
                     Add relevant keywords to help others find your article
+                  </div>
+                </div>
+
+                {/* PDF Upload */}
+                <div className="form-group">
+                  <label className="form-label">
+                    <Upload size={18} />
+                    Attach PDF Document (Optional)
+                  </label>
+                  <div className="pdf-upload-area">
+                    {!pdfFile ? (
+                      <div className="pdf-upload-prompt">
+                        <input
+                          type="file"
+                          accept=".pdf"
+                          onChange={handleFileChange}
+                          id="pdfFileInput"
+                          style={{ display: 'none' }}
+                        />
+                        <label htmlFor="pdfFileInput" className="pdf-upload-label">
+                          <File size={32} className="pdf-icon" />
+                          <span>Click to upload PDF</span>
+                          <span className="pdf-hint">Max size: 10MB</span>
+                        </label>
+                      </div>
+                    ) : (
+                      <div className="pdf-file-preview">
+                        <File size={24} className="pdf-preview-icon" />
+                        <div className="pdf-file-info">
+                          <div className="pdf-file-name">{pdfFile.name}</div>
+                          <div className="pdf-file-size">
+                            {(pdfFile.size / 1024 / 1024).toFixed(2)} MB
+                          </div>
+                        </div>
+                        <button
+                          type="button"
+                          onClick={removePdfFile}
+                          className="pdf-remove-btn"
+                        >
+                          <X size={20} />
+                        </button>
+                      </div>
+                    )}
+                  </div>
+                  <div className="form-hint">
+                    PDF content will be extracted and added to the article
                   </div>
                 </div>
 

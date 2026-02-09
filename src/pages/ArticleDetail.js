@@ -10,6 +10,8 @@ import {
   Bookmark,
   Share2,
   Eye,
+  FileText,
+  ExternalLink,
 } from "lucide-react";
 import Card from "../components/Card";
 import Button from "../components/Button";
@@ -148,6 +150,42 @@ const ArticleDetail = () => {
                   <p key={index}>{paragraph}</p>
                 ))}
               </div>
+
+              {/* PDF Viewer */}
+              {article.pdfFile && (
+                <div className="article-pdf-section">
+                  <div className="pdf-section-header">
+                    <FileText size={20} />
+                    <h3>Attached Document</h3>
+                  </div>
+                  <div className="pdf-viewer-container">
+                    <div className="pdf-viewer-header">
+                      <FileText size={16} />
+                      <span className="pdf-name">{article.pdfOriginalName || 'Document.pdf'}</span>
+                    </div>
+                    <div className="pdf-viewer-frame">
+                      <iframe
+                        src={`${process.env.REACT_APP_API_URL || "http://localhost:5000/api"}/articles/pdf/${article.pdfFile}`}
+                        title={article.pdfOriginalName || 'PDF Document'}
+                        width="100%"
+                        height="600px"
+                        style={{ border: 'none' }}
+                      />
+                    </div>
+                    <div className="pdf-viewer-actions">
+                      <a
+                        href={`${process.env.REACT_APP_API_URL || "http://localhost:5000/api"}/articles/pdf/${article.pdfFile}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="pdf-action-link"
+                      >
+                        <ExternalLink size={16} />
+                        Open PDF in new tab
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              )}
 
               {/* Tags */}
               {article.tags && article.tags.length > 0 && (

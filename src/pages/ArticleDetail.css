@@ -17,6 +17,10 @@
 /* Main Content */
 .article-content-card {
   padding: 48px;
+  overflow-wrap: break-word;
+  word-break: break-word;
+  max-width: 100%;
+  overflow-x: hidden;
 }
 
 .article-header-section {
@@ -80,10 +84,18 @@
   line-height: 1.8;
   color: #0F2854;
   margin-bottom: 48px;
+  word-wrap: break-word;
+  word-break: break-word;
+  overflow-wrap: break-word;
+  white-space: pre-wrap;
+  max-width: 100%;
 }
 
 .article-body p {
   margin-bottom: 20px;
+  word-wrap: break-word;
+  word-break: break-word;
+  overflow-wrap: break-word;
 }
 
 .article-body p:last-child {
@@ -260,6 +272,98 @@ color: #0F2854 !important; }
   margin-bottom: 24px;
   color: #0F2854;
 color: #0F2854 !important; }
+
+/* PDF Viewer Section */
+.article-pdf-section {
+  margin: 48px 0;
+  padding-top: 48px;
+  border-top: 2px solid rgba(255, 255, 255, 0.1);
+}
+
+.pdf-section-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 24px;
+}
+
+.pdf-section-header h3 {
+  font-size: 24px;
+  font-weight: 700;
+  color: #0F2854;
+  margin: 0;
+}
+
+.pdf-section-header svg {
+  color: var(--primary-light);
+}
+
+.pdf-viewer-container {
+  border: 2px solid rgba(79, 134, 208, 0.2);
+  border-radius: 16px;
+  overflow: hidden;
+  background: white;
+}
+
+.pdf-viewer-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px 24px;
+  background: rgba(79, 134, 208, 0.1);
+  border-bottom: 1px solid rgba(79, 134, 208, 0.2);
+}
+
+.pdf-viewer-header svg {
+  color: var(--primary-medium);
+  flex-shrink: 0;
+}
+
+.pdf-name {
+  font-weight: 600;
+  color: var(--primary-dark);
+  font-size: 15px;
+}
+
+.pdf-viewer-frame {
+  background: #f8f9fa;
+  padding: 0;
+}
+
+.pdf-viewer-frame iframe {
+  display: block;
+  width: 100%;
+}
+
+.pdf-viewer-actions {
+  padding: 16px 24px;
+  background: white;
+  border-top: 1px solid rgba(79, 134, 208, 0.2);
+}
+
+.pdf-action-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--primary-medium);
+  text-decoration: none;
+  font-size: 15px;
+  font-weight: 600;
+  transition: all 0.2s ease;
+}
+
+.pdf-action-link:hover {
+  color: var(--primary-dark);
+  gap: 10px;
+}
+
+.pdf-action-link svg {
+  transition: transform 0.2s ease;
+}
+
+.pdf-action-link:hover svg {
+  transform: translateX(2px);
+}
 
 /* Responsive */
 @media (max-width: 1024px) {

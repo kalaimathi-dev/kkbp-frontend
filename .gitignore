@@ -50,3 +50,4 @@ dist
 .vercel
 .temp
 .tmp
+.env*.local

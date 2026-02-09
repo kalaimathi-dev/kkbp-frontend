@@ -633,7 +633,7 @@ const ApprovalsTab = ({ articles, handleApprove, handleReject, processingId, for
         </div>
         <div className="ad-grid-3">
           {articles.map((article) => (
-            <div key={article._id} className="ad-article-card">
+            <div key={article.id} className="ad-article-card">
               <div className="ad-article-top">
                 <span className="ad-category-pill">
                   {article.category?.name || "Uncategorized"}
@@ -658,15 +658,15 @@ const ApprovalsTab = ({ articles, handleApprove, handleReject, processingId, for
                 <div className="ad-actions-row">
                   <button
                     className="ad-btn ad-btn--approve"
-                    onClick={() => handleApprove(article._id)}
-                    disabled={processingId === article._id}
+                    onClick={() => handleApprove(article.id)}
+                    disabled={processingId === article.id}
                   >
                     <CheckCircle size={15} /> Approve
                   </button>
                   <button
                     className="ad-btn ad-btn--reject"
-                    onClick={() => handleReject(article._id)}
-                    disabled={processingId === article._id}
+                    onClick={() => handleReject(article.id)}
+                    disabled={processingId === article.id}
                   >
                     <XCircle size={15} /> Reject
                   </button>
@@ -674,8 +674,8 @@ const ApprovalsTab = ({ articles, handleApprove, handleReject, processingId, for
               </div>
               {article.tags?.length > 0 && (
                 <div className="ad-tag-row">
-                  {article.tags.slice(0, 3).map((tag) => (
-                    <span key={tag._id} className="ad-tag">{tag.name}</span>
+                  {article.tags.slice(0, 3).map((tag, idx) => (
+                    <span key={idx} className="ad-tag">{tag}</span>
                   ))}
                 </div>
               )}
@@ -725,7 +725,7 @@ const ArticleManagementTab = ({
     {/* Grid */}
     <div className="ad-grid-3">
       {articles.map((article) => (
-        <div key={article._id} className="ad-article-card">
+        <div key={article.id} className="ad-article-card">
           <div className="ad-article-top">
             <span className="ad-category-pill">
               {article.category?.name || "Uncategorized"}
@@ -749,19 +749,19 @@ const ArticleManagementTab = ({
             </div>
             <div className="ad-actions-row">
               {article.status === "APPROVED" && (
-                <button className="ad-icon-btn ad-icon-btn--amber" onClick={() => handleUnpublish(article._id)} title="Unpublish">
+                <button className="ad-icon-btn ad-icon-btn--amber" onClick={() => handleUnpublish(article.id)} title="Unpublish">
                   <FileX size={16} />
                 </button>
               )}
-              <button className="ad-icon-btn ad-icon-btn--red" onClick={() => handleDelete(article._id)} title="Delete">
+              <button className="ad-icon-btn ad-icon-btn--red" onClick={() => handleDelete(article.id)} title="Delete">
                 <Trash2 size={16} />
               </button>
             </div>
           </div>
           {article.tags?.length > 0 && (
             <div className="ad-tag-row">
-              {article.tags.slice(0, 3).map((tag) => (
-                <span key={tag._id} className="ad-tag">{tag.name}</span>
+              {article.tags.slice(0, 3).map((tag, idx) => (
+                <span key={idx} className="ad-tag">{tag}</span>
               ))}
             </div>
           )}
