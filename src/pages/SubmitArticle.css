@@ -400,3 +400,380 @@
 .pdf-remove-btn:hover {
   background: rgba(231, 76, 60, 0.1);
 }
+
+/* Rich Text Editor Styles */
+.rich-editor-wrapper {
+  margin-top: 8px;
+}
+
+.rich-editor {
+  background: rgba(28, 77, 141, 0.2);
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.rich-editor .ql-toolbar {
+  background: rgba(73, 136, 196, 0.3);
+  border: 2px solid rgba(73, 136, 196, 0.3);
+  border-bottom: 1px solid rgba(73, 136, 196, 0.5);
+  border-radius: 10px 10px 0 0;
+  padding: 12px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+
+.rich-editor .ql-toolbar .ql-formats {
+  margin-right: 12px;
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+}
+
+.rich-editor .ql-container {
+  border: 2px solid rgba(73, 136, 196, 0.3);
+  border-top: none;
+  border-radius: 0 0 10px 10px;
+  min-height: 400px;
+  font-size: 15px;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.rich-editor .ql-editor {
+  min-height: 400px;
+  color: #0f2854;
+  padding: 18px;
+  line-height: 1.6;
+}
+
+.rich-editor .ql-editor.ql-blank::before {
+  color: #0f2854;
+  font-style: normal;
+  opacity: 0.6;
+}
+
+/* Toolbar button styling */
+.rich-editor .ql-toolbar button {
+  color: #0f2854;
+  padding: 8px;
+  transition: all 0.2s ease;
+  border-radius: 4px;
+  width: 32px;
+  height: 32px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.rich-editor .ql-toolbar button svg {
+  width: 20px;
+  height: 20px;
+}
+
+.rich-editor .ql-toolbar button:hover {
+  background: rgba(255, 255, 255, 0.2);
+  color: var(--primary-dark);
+  transform: scale(1.05);
+}
+
+.rich-editor .ql-toolbar button.ql-active {
+  background: rgba(73, 136, 196, 0.5);
+  color: var(--primary-dark);
+}
+
+/* Tooltip styling for toolbar buttons */
+.rich-editor .ql-toolbar button::after {
+  content: attr(title);
+  position: absolute;
+  bottom: -35px;
+  left: 50%;
+  transform: translateX(-50%) scale(0);
+  background: rgba(15, 40, 84, 0.95);
+  color: #bde8f5;
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-size: 12px;
+  white-space: nowrap;
+  pointer-events: none;
+  opacity: 0;
+  transition: all 0.2s ease;
+  z-index: 1000;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+.rich-editor .ql-toolbar button:hover::after {
+  transform: translateX(-50%) scale(1);
+  opacity: 1;
+}
+
+.rich-editor .ql-toolbar .ql-stroke {
+  stroke: #0f2854;
+  stroke-width: 2;
+}
+
+.rich-editor .ql-toolbar .ql-fill {
+  fill: #0f2854;
+}
+
+.rich-editor .ql-toolbar button:hover .ql-stroke,
+.rich-editor .ql-toolbar button.ql-active .ql-stroke {
+  stroke: var(--primary-dark);
+}
+
+.rich-editor .ql-toolbar button:hover .ql-fill,
+.rich-editor .ql-toolbar button.ql-active .ql-fill {
+  fill: var(--primary-dark);
+}
+
+/* Dropdown styling */
+.rich-editor .ql-toolbar select {
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(73, 136, 196, 0.4);
+  border-radius: 4px;
+  color: #0f2854;
+  padding: 6px 28px 6px 10px;
+  transition: all 0.2s ease;
+  height: 32px;
+  font-size: 14px;
+}
+
+.rich-editor .ql-toolbar select:hover {
+  background: rgba(255, 255, 255, 0.2);
+  border-color: var(--primary-medium);
+}
+
+.rich-editor .ql-toolbar select:focus {
+  outline: none;
+  border-color: var(--primary-medium);
+  box-shadow: 0 0 0 2px rgba(73, 136, 196, 0.2);
+}
+
+.rich-editor .ql-toolbar .ql-picker {
+  height: 32px;
+}
+
+.rich-editor .ql-toolbar .ql-picker-label {
+  color: #0f2854;
+  border: 1px solid rgba(73, 136, 196, 0.4);
+  border-radius: 4px;
+  padding: 6px 10px;
+  transition: all 0.2s ease;
+  height: 32px;
+  display: inline-flex;
+  align-items: center;
+  font-size: 14px;
+}
+
+.rich-editor .ql-toolbar .ql-picker-label svg {
+  width: 18px;
+  height: 18px;
+}
+
+.rich-editor .ql-toolbar .ql-picker-label:hover {
+  background: rgba(255, 255, 255, 0.2);
+  border-color: var(--primary-medium);
+}
+
+.rich-editor .ql-toolbar .ql-picker-label.ql-active {
+  background: rgba(73, 136, 196, 0.5);
+  color: var(--primary-dark);
+}
+
+.rich-editor .ql-toolbar .ql-picker-options {
+  background: rgba(28, 77, 141, 0.95);
+  border: 2px solid var(--primary-medium);
+  border-radius: 8px;
+  padding: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.rich-editor .ql-toolbar .ql-picker-item {
+  color: #0f2854;
+  padding: 6px 12px;
+  border-radius: 4px;
+  transition: all 0.2s ease;
+}
+
+.rich-editor .ql-toolbar .ql-picker-item:hover {
+  background: rgba(73, 136, 196, 0.4);
+}
+
+.rich-editor .ql-toolbar .ql-picker-item.ql-selected {
+  background: rgba(73, 136, 196, 0.6);
+  color: var(--primary-dark);
+}
+
+/* Focus state */
+.rich-editor:focus-within .ql-container {
+  border-color: var(--primary-medium);
+  box-shadow: 0 0 0 4px rgba(73, 136, 196, 0.2);
+  background: rgba(28, 77, 141, 0.3);
+}
+
+/* Editor content styling */
+.rich-editor .ql-editor h1,
+.rich-editor .ql-editor h2,
+.rich-editor .ql-editor h3,
+.rich-editor .ql-editor h4,
+.rich-editor .ql-editor h5,
+.rich-editor .ql-editor h6 {
+  color: #0f2854;
+  font-weight: 600;
+  margin-top: 1em;
+  margin-bottom: 0.5em;
+}
+
+.rich-editor .ql-editor blockquote {
+  border-left: 4px solid var(--primary-medium);
+  background: rgba(73, 136, 196, 0.1);
+  padding: 12px 16px;
+  margin: 16px 0;
+  color: #0f2854;
+}
+
+.rich-editor .ql-editor pre {
+  background: rgba(15, 40, 84, 0.8);
+  color: #bde8f5;
+  padding: 16px;
+  border-radius: 8px;
+  overflow-x: auto;
+}
+
+.rich-editor .ql-editor pre.ql-syntax {
+  background: #1e1e1e !important;
+  color: #d4d4d4 !important;
+  padding: 20px !important;
+  border-radius: 8px !important;
+  overflow-x: auto !important;
+  font-family: 'Consolas', 'Monaco', 'Courier New', monospace !important;
+  font-size: 14px !important;
+  line-height: 1.6 !important;
+  border: 1px solid rgba(73, 136, 196, 0.3) !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3) !important;
+}
+
+.rich-editor .ql-editor code {
+  background: rgba(73, 136, 196, 0.2);
+  color: var(--primary-dark);
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 0.9em;
+}
+
+/* Override highlight.js styles for inline code */
+.rich-editor .ql-editor pre.ql-syntax code {
+  background: transparent !important;
+  color: inherit !important;
+  padding: 0 !important;
+  font-family: inherit !important;
+}
+
+/* Code block scrollbar in editor */
+.rich-editor .ql-editor pre.ql-syntax::-webkit-scrollbar {
+  height: 8px;
+}
+
+.rich-editor .ql-editor pre.ql-syntax::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 4px;
+}
+
+.rich-editor .ql-editor pre.ql-syntax::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 4px;
+}
+
+.rich-editor .ql-editor pre.ql-syntax::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.3);
+}
+
+.rich-editor .ql-editor a {
+  color: var(--primary-medium);
+  text-decoration: underline;
+}
+
+.rich-editor .ql-editor a:hover {
+  color: var(--primary-light);
+}
+
+.rich-editor .ql-editor ul,
+.rich-editor .ql-editor ol {
+  padding-left: 1.5em;
+  color: #0f2854;
+}
+
+.rich-editor .ql-editor img {
+  max-width: 100%;
+  border-radius: 8px;
+  margin: 16px 0;
+}
+
+/* Custom scrollbar for editor */
+.rich-editor .ql-editor::-webkit-scrollbar {
+  width: 8px;
+}
+
+.rich-editor .ql-editor::-webkit-scrollbar-track {
+  background: rgba(28, 77, 141, 0.2);
+  border-radius: 4px;
+}
+
+.rich-editor .ql-editor::-webkit-scrollbar-thumb {
+  background: var(--primary-medium);
+  border-radius: 4px;
+}
+
+.rich-editor .ql-editor::-webkit-scrollbar-thumb:hover {
+  background: var(--primary-light);
+}
+
+/* Responsive editor */
+@media (max-width: 768px) {
+  .rich-editor .ql-toolbar {
+    padding: 8px;
+    gap: 2px;
+  }
+
+  .rich-editor .ql-toolbar .ql-formats {
+    margin-right: 8px;
+    gap: 1px;
+  }
+
+  .rich-editor .ql-toolbar button {
+    padding: 6px;
+    width: 28px;
+    height: 28px;
+  }
+
+  .rich-editor .ql-toolbar button svg {
+    width: 16px;
+    height: 16px;
+  }
+
+  .rich-editor .ql-toolbar .ql-picker {
+    height: 28px;
+  }
+
+  .rich-editor .ql-toolbar .ql-picker-label {
+    height: 28px;
+    padding: 4px 8px;
+    font-size: 12px;
+  }
+
+  .rich-editor .ql-toolbar select {
+    height: 28px;
+    padding: 4px 24px 4px 8px;
+    font-size: 12px;
+  }
+
+  .rich-editor .ql-container,
+  .rich-editor .ql-editor {
+    min-height: 300px;
+  }
+
+  /* Hide tooltips on mobile to avoid interference with touch */
+  .rich-editor .ql-toolbar button::after {
+    display: none;
+  }
+}

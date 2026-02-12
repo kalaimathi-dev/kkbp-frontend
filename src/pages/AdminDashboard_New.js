@@ -644,7 +644,7 @@ const ApprovalsTab = ({ articles, handleApprove, handleReject, processingId, for
               </div>
               <h4 className="ad-article-title">{article.title}</h4>
               <p className="ad-article-excerpt">
-                {article.excerpt || article.content?.substring(0, 140) + "..." || "No content"}
+                {article.excerpt || (article.content?.replace(/<[^>]*>/g, '').substring(0, 140) + "...") || "No content"}
               </p>
               <div className="ad-article-meta">
                 {getStatusBadge(article.status)}
@@ -736,7 +736,7 @@ const ArticleManagementTab = ({
           </div>
           <h4 className="ad-article-title">{article.title}</h4>
           <p className="ad-article-excerpt">
-            {article.excerpt?.substring(0, 120) || "No excerpt"}...
+            {(article.excerpt?.replace(/<[^>]*>/g, '').substring(0, 120)) || "No excerpt"}...
           </p>
           <div className="ad-article-meta">
             {getStatusBadge(article.status)}

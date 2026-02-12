@@ -26,8 +26,8 @@
 
 .brand-icon {
   position: relative;
-  width: 40px;
-  height: 40px;
+  width: 80px;
+  height: 80px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -84,6 +84,7 @@
   text-decoration: none;
   transition: all var(--transition-normal);
   overflow: hidden;
+  white-space: nowrap;
 }
 
 .nav-link::before {

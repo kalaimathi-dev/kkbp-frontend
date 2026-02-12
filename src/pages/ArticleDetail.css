@@ -98,6 +98,252 @@
   overflow-wrap: break-word;
 }
 
+/* Rich Text Content Styling */
+.rich-text-content h1,
+.rich-text-content h2,
+.rich-text-content h3,
+.rich-text-content h4,
+.rich-text-content h5,
+.rich-text-content h6 {
+  color: #0F2854;
+  font-weight: 700;
+  margin-top: 32px;
+  margin-bottom: 16px;
+  line-height: 1.3;
+}
+
+.rich-text-content h1 {
+  font-size: 36px;
+}
+
+.rich-text-content h2 {
+  font-size: 30px;
+}
+
+.rich-text-content h3 {
+  font-size: 24px;
+}
+
+.rich-text-content h4 {
+  font-size: 20px;
+}
+
+.rich-text-content h5 {
+  font-size: 18px;
+}
+
+.rich-text-content h6 {
+  font-size: 16px;
+}
+
+.rich-text-content strong {
+  font-weight: 700;
+  color: #0F2854;
+}
+
+.rich-text-content em {
+  font-style: italic;
+}
+
+.rich-text-content u {
+  text-decoration: underline;
+}
+
+.rich-text-content s {
+  text-decoration: line-through;
+}
+
+.rich-text-content a {
+  color: var(--primary-medium);
+  text-decoration: underline;
+  transition: color 0.2s ease;
+}
+
+.rich-text-content a:hover {
+  color: var(--primary-light);
+}
+
+.rich-text-content ul,
+.rich-text-content ol {
+  margin: 20px 0;
+  padding-left: 32px;
+  color: #0F2854;
+}
+
+.rich-text-content ul li,
+.rich-text-content ol li {
+  margin-bottom: 12px;
+  line-height: 1.8;
+}
+
+.rich-text-content ul {
+  list-style-type: disc;
+}
+
+.rich-text-content ol {
+  list-style-type: decimal;
+}
+
+.rich-text-content blockquote {
+  border-left: 4px solid var(--primary-medium);
+  background: rgba(73, 136, 196, 0.1);
+  padding: 20px 24px;
+  margin: 24px 0;
+  color: #0F2854;
+  font-style: italic;
+  border-radius: 0 8px 8px 0;
+}
+
+.rich-text-content pre {
+  background: #1e1e1e !important;
+  color: #d4d4d4 !important;
+  padding: 24px !important;
+  border-radius: 12px !important;
+  overflow-x: auto !important;
+  margin: 32px 0 !important;
+  font-family: 'Consolas', 'Monaco', 'Courier New', monospace !important;
+  font-size: 14px !important;
+  line-height: 1.7 !important;
+  border: 1px solid rgba(73, 136, 196, 0.2) !important;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2) !important;
+}
+
+.rich-text-content code {
+  background: rgba(73, 136, 196, 0.2);
+  color: #c586c0;
+  padding: 3px 8px;
+  border-radius: 4px;
+  font-size: 0.9em;
+  font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+  font-weight: 500;
+}
+
+.rich-text-content pre code {
+  background: transparent !important;
+  color: inherit !important;
+  padding: 0 !important;
+  font-weight: normal !important;
+  display: block !important;
+  overflow-x: auto !important;
+}
+
+/* Code block scrollbar */
+.rich-text-content pre::-webkit-scrollbar {
+  height: 8px;
+}
+
+.rich-text-content pre::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 4px;
+}
+
+.rich-text-content pre::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 4px;
+}
+
+.rich-text-content pre::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.3);
+}
+
+.rich-text-content img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 12px;
+  margin: 24px 0;
+  display: block;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.rich-text-content video {
+  max-width: 100%;
+  height: auto;
+  border-radius: 12px;
+  margin: 24px 0;
+  display: block;
+}
+
+.rich-text-content iframe {
+  max-width: 100%;
+  margin: 24px 0;
+  border-radius: 12px;
+}
+
+.rich-text-content sub {
+  vertical-align: sub;
+  font-size: 0.8em;
+}
+
+.rich-text-content sup {
+  vertical-align: super;
+  font-size: 0.8em;
+}
+
+.rich-text-content hr {
+  border: none;
+  border-top: 2px solid rgba(73, 136, 196, 0.3);
+  margin: 32px 0;
+}
+
+/* Alignment classes */
+.rich-text-content .ql-align-center {
+  text-align: center;
+}
+
+.rich-text-content .ql-align-right {
+  text-align: right;
+}
+
+.rich-text-content .ql-align-justify {
+  text-align: justify;
+}
+
+/* Font sizes */
+.rich-text-content .ql-size-small {
+  font-size: 0.75em;
+}
+
+.rich-text-content .ql-size-large {
+  font-size: 1.5em;
+}
+
+.rich-text-content .ql-size-huge {
+  font-size: 2em;
+}
+
+/* Indent */
+.rich-text-content .ql-indent-1 {
+  padding-left: 3em;
+}
+
+.rich-text-content .ql-indent-2 {
+  padding-left: 6em;
+}
+
+.rich-text-content .ql-indent-3 {
+  padding-left: 9em;
+}
+
+.rich-text-content .ql-indent-4 {
+  padding-left: 12em;
+}
+
+.rich-text-content .ql-indent-5 {
+  padding-left: 15em;
+}
+
+.rich-text-content .ql-indent-6 {
+  padding-left: 18em;
+}
+
+.rich-text-content .ql-indent-7 {
+  padding-left: 21em;
+}
+
+.rich-text-content .ql-indent-8 {
+  padding-left: 24em;
+}
+
 .article-body p:last-child {
   margin-bottom: 0;
 }

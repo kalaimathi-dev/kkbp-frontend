@@ -13,6 +13,9 @@ import {
   Bot,
   BarChart3,
 } from "lucide-react";
+import hljs from 'highlight.js';
+import 'highlight.js/styles/vs2015.css';
+import DOMPurify from 'dompurify';
 import Card from "../components/Card";
 import Button from "../components/Button";
 import api from "../utils/api";
@@ -45,6 +48,32 @@ const AdminDashboard = () => {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [showChatbotAnalytics]);
+
+  useEffect(() => {
+    // Apply syntax highlighting to code blocks in modal
+    if (selectedArticle) {
+      setTimeout(() => {
+        document.querySelectorAll('.modal-body pre code').forEach((block) => {
+          hljs.highlightElement(block);
+        });
+      }, 100);
+    }
+  }, [selectedArticle]);
+
+  // Helper function to decode HTML entities
+  const decodeHTML = (html) => {
+    const txt = document.createElement('textarea');
+    txt.innerHTML = html;
+    let decoded = txt.value;
+    
+    // Decode again if still encoded (double encoding case)
+    if (decoded.includes('&lt;') || decoded.includes('&gt;') || decoded.includes('&amp;')) {
+      txt.innerHTML = decoded;
+      decoded = txt.value;
+    }
+    
+    return decoded;
+  };
 
   const fetchChatbotAnalytics = async () => {
     try {
@@ -525,7 +554,20 @@ const AdminDashboard = () => {
                 </div>
 
                 <div className="modal-body">
-                  <p>{selectedArticle.content}</p>
+                  <div 
+                    className="rich-text-content"
+                    dangerouslySetInnerHTML={{ 
+                      __html: (() => {
+                        // Decode HTML entities if content is escaped
+                        const decoded = decodeHTML(selectedArticle.content);
+                        
+                        return DOMPurify.sanitize(decoded, {
+                          ADD_TAGS: ['iframe'],
+                          ADD_ATTR: ['target', 'allow', 'allowfullscreen', 'frameborder', 'scrolling']
+                        });
+                      })()
+                    }}
+                  />
                 </div>
 
                 {selectedArticle.status === "PENDING" && (

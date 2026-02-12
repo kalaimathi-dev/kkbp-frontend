@@ -278,7 +278,7 @@ const Articles = () => {
                   <h3 className="article-title">{article.title}</h3>
                   <p className="article-excerpt">
                     {article.excerpt ||
-                      article.content?.substring(0, 150) + "..."}
+                      (article.content?.replace(/<[^>]*>/g, '').substring(0, 150) + "...")}
                   </p>
 
                   <div className="article-footer">

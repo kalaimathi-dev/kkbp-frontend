@@ -50,15 +50,12 @@ const Navbar = () => {
               src="/images.png"
               alt="Kambaa Logo"
               style={{
-                width: "55px",
-                height: "55px",
+                width: "80px",
+                height: "80px",
                 objectFit: "contain",
               }}
             />
           </motion.div>
-          <span className="brand-text text-gradient">
-            Kambaa Knowledge Base Portal
-          </span>
         </Link>
 
         <div className="nav-links">

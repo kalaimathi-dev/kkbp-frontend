@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 import {
@@ -11,11 +11,20 @@ import {
   File,
   X,
 } from "lucide-react";
+import ReactQuill, { Quill } from 'react-quill';
+import 'react-quill/dist/quill.snow.css';
+import hljs from 'highlight.js';
+import 'highlight.js/styles/vs2015.css';
 import Card from "../components/Card";
 import Button from "../components/Button";
 import api from "../utils/api";
 import { toast } from "react-toastify";
 import "./SubmitArticle.css";
+
+// Configure syntax highlighting
+hljs.configure({
+  languages: ['javascript', 'python', 'java', 'html', 'css', 'sql', 'json', 'typescript', 'bash', 'c', 'cpp', 'csharp', 'php', 'ruby', 'go', 'rust', 'swift', 'kotlin', 'xml', 'yaml', 'markdown']
+});
 
 const SubmitArticle = () => {
   const navigate = useNavigate();
@@ -30,6 +39,87 @@ const SubmitArticle = () => {
   const [pdfFile, setPdfFile] = useState(null);
   const [loading, setLoading] = useState(false);
   const [charCount, setCharCount] = useState(0);
+
+  // Rich text editor configuration
+  const modules = useMemo(() => ({
+    toolbar: {
+      container: [
+        [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
+        [{ 'font': [] }],
+        [{ 'size': ['small', false, 'large', 'huge'] }],
+        ['bold', 'italic', 'underline', 'strike'],
+        [{ 'color': [] }, { 'background': [] }],
+        [{ 'script': 'sub'}, { 'script': 'super' }],
+        [{ 'list': 'ordered'}, { 'list': 'bullet' }],
+        [{ 'indent': '-1'}, { 'indent': '+1' }],
+        [{ 'align': [] }],
+        ['blockquote', 'code-block'],
+        ['link', 'image', 'video'],
+        ['clean']
+      ],
+      handlers: {}
+    },
+    syntax: {
+      highlight: (text) => hljs.highlightAuto(text).value
+    },
+    clipboard: {
+      matchVisual: false,
+    }
+  }), []);
+
+  // Add tooltips to toolbar after component mounts
+  useEffect(() => {
+    const addTooltips = () => {
+      const tooltips = {
+        '.ql-bold': 'Bold',
+        '.ql-italic': 'Italic',
+        '.ql-underline': 'Underline',
+        '.ql-strike': 'Strikethrough',
+        '.ql-blockquote': 'Blockquote',
+        '.ql-code-block': 'Code Block',
+        '.ql-link': 'Insert Link',
+        '.ql-image': 'Insert Image',
+        '.ql-video': 'Insert Video',
+        '.ql-list[value="ordered"]': 'Numbered List',
+        '.ql-list[value="bullet"]': 'Bullet List',
+        '.ql-indent[value="-1"]': 'Decrease Indent',
+        '.ql-indent[value="+1"]': 'Increase Indent',
+        '.ql-script[value="sub"]': 'Subscript',
+        '.ql-script[value="super"]': 'Superscript',
+        '.ql-clean': 'Clear Formatting',
+        '.ql-header': 'Heading',
+        '.ql-font': 'Font',
+        '.ql-size': 'Font Size',
+        '.ql-color': 'Text Color',
+        '.ql-background': 'Background Color',
+        '.ql-align': 'Text Align'
+      };
+
+      Object.entries(tooltips).forEach(([selector, title]) => {
+        const elements = document.querySelectorAll(selector);
+        elements.forEach(el => {
+          if (el && !el.getAttribute('title')) {
+            el.setAttribute('title', title);
+          }
+        });
+      });
+    };
+
+    // Small delay to ensure Quill is fully rendered
+    const timer = setTimeout(addTooltips, 100);
+    return () => clearTimeout(timer);
+  }, []);
+
+  const formats = [
+    'header', 'font', 'size',
+    'bold', 'italic', 'underline', 'strike',
+    'color', 'background',
+    'script',
+    'list', 'bullet', 'indent',
+    'align',
+    'blockquote', 'code-block',
+    'link', 'image', 'video'
+  ];
 
   useEffect(() => {
     fetchCategories();
@@ -51,6 +141,13 @@ const SubmitArticle = () => {
     if (name === "content") {
       setCharCount(value.length);
     }
+  };
+
+  const handleContentChange = (value) => {
+    setFormData((prev) => ({ ...prev, content: value }));
+    // Strip HTML tags to count actual text
+    const textOnly = value.replace(/<[^>]*>/g, '');
+    setCharCount(textOnly.length);
   };
 
   const handleFileChange = (e) => {
@@ -265,14 +362,17 @@ const SubmitArticle = () => {
                     <FileText size={18} />
                     Content
                   </label>
-                  <textarea
-                    name="content"
-                    value={formData.content}
-                    onChange={handleChange}
-                    placeholder="Write your article content here..."
-                    className="form-textarea content-textarea"
-                    rows={15}
-                  />
+                  <div className="rich-editor-wrapper">
+                    <ReactQuill
+                      theme="snow"
+                      value={formData.content}
+                      onChange={handleContentChange}
+                      modules={modules}
+                      formats={formats}
+                      placeholder="Write your article content here..."
+                      className="rich-editor"
+                    />
+                  </div>
                   <div className="form-hint">
                     <span
                       className={

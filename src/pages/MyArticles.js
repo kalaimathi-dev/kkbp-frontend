@@ -221,7 +221,9 @@ const MyArticles = () => {
                       <h3 className="article-title">{article.title}</h3>
 
                       {article.excerpt && (
-                        <p className="article-excerpt">{article.excerpt}</p>
+                        <p className="article-excerpt">
+                          {article.excerpt.replace(/<[^>]*>/g, '')}
+                        </p>
                       )}
 
                       <div className="article-meta">

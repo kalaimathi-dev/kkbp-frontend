@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import {
@@ -13,6 +13,9 @@ import {
   FileText,
   ExternalLink,
 } from "lucide-react";
+import hljs from 'highlight.js';
+import 'highlight.js/styles/vs2015.css';
+import DOMPurify from 'dompurify';
 import Card from "../components/Card";
 import Button from "../components/Button";
 import api from "../utils/api";
@@ -30,6 +33,70 @@ const ArticleDetail = () => {
     fetchArticle();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id]);
+
+  // Helper function to decode HTML entities and detect content type
+  const decodeHTML = (html) => {
+    if (!html) return '';
+    
+    const txt = document.createElement('textarea');
+    txt.innerHTML = html;
+    let decoded = txt.value;
+    
+    // Decode again if still encoded (double encoding case)
+    if (decoded.includes('&lt;') || decoded.includes('&gt;') || decoded.includes('&amp;')) {
+      txt.innerHTML = decoded;
+      decoded = txt.value;
+    }
+    
+    console.log('Original content length:', html?.length);
+    console.log('Decoded content length:', decoded?.length);
+    console.log('First 200 chars of original:', html?.substring(0, 200));
+    console.log('First 200 chars of decoded:', decoded?.substring(0, 200));
+    console.log('Contains HTML tags:', decoded.includes('<'));
+    
+    // Check if this is actually HTML content or just plain text showing HTML
+    // If the original starts with HTML tags (not encoded), it's plain text being displayed
+    const startsWithHTMLTag = /^[\s]*<(h[1-6]|p|div|span|strong|em|ul|ol|li|pre|code|blockquote)[\s>]/i.test(html);
+    const hasRichTextFeatures = html.includes('<strong>') || html.includes('<em>') || html.includes('<p>') || html.includes('<h1>') || html.includes('<h2>') || html.includes('<img');
+    
+    console.log('Starts with HTML tag:', startsWithHTMLTag);
+    console.log('Has rich text features:', hasRichTextFeatures);
+    
+    return decoded;
+  };
+
+  // Sanitize and process HTML content
+  const sanitizedContent = useMemo(() => {
+    if (!article || !article.content) return '';
+    
+    let content = article.content;
+    
+    // Decode HTML entities if content is escaped (handles single and double encoding)
+    content = decodeHTML(content);
+    
+    // Configure DOMPurify to allow all safe HTML and attributes
+    const config = {
+      ADD_TAGS: ['iframe'],
+      ADD_ATTR: ['target', 'allow', 'allowfullscreen', 'frameborder', 'scrolling']
+    };
+    
+    const sanitized = DOMPurify.sanitize(content, config);
+    console.log('Sanitized content length:', sanitized?.length);
+    console.log('First 200 chars of sanitized:', sanitized?.substring(0, 200));
+    
+    return sanitized;
+  }, [article]);
+
+  useEffect(() => {
+    // Apply syntax highlighting to code blocks after content loads
+    if (article && sanitizedContent) {
+      setTimeout(() => {
+        document.querySelectorAll('.article-body pre code').forEach((block) => {
+          hljs.highlightElement(block);
+        });
+      }, 100);
+    }
+  }, [article, sanitizedContent]);
 
   const fetchArticle = async () => {
     setLoading(true);
@@ -145,11 +212,10 @@ const ArticleDetail = () => {
               </div>
 
               {/* Article Content */}
-              <div className="article-body">
-                {article.content?.split("\n").map((paragraph, index) => (
-                  <p key={index}>{paragraph}</p>
-                ))}
-              </div>
+              <div 
+                className="article-body rich-text-content"
+                dangerouslySetInnerHTML={{ __html: sanitizedContent }}
+              />
 
               {/* PDF Viewer */}
               {article.pdfFile && (
